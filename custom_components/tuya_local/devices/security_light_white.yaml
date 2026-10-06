@@ -77,3 +77,75 @@ entities:
           min: 10
           max: 3600
         unit: s
+  - entity: switch
+    name: Block auto light
+    category: config
+    icon: "mdi:motion-sensor-off"
+    dps:
+      - id: 101
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Notifications
+    category: config
+    icon: "mdi:bell"
+    dps:
+      - id: 102
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Test mode
+    category: config
+    icon: "mdi:walk"
+    dps:
+      - id: 103
+        type: boolean
+        name: switch
+  - entity: select
+    name: Cloud schedule
+    category: config
+    icon: "mdi:calendar-clock"
+    dps:
+      - id: 104
+        type: string
+        name: option
+        mapping:
+          - dps_val: cloud_she_disble
+            value: Disabled
+          - dps_val: accent_on
+            value: Accent on
+          - dps_val: accent_off
+            value: Accent off
+          - dps_val: flood_on
+            value: Flood on
+          - dps_val: flood_off
+            value: Flood off
+          - dps_val: motion_on
+            value: Motion on
+          - dps_val: motion_off
+            value: Motion off
+          - dps_val: accent_disable
+            value: Accent disabled
+          - dps_val: flood_disable
+            value: Flood disabled
+  - entity: number
+    name: Linked light duration
+    category: config
+    icon: "mdi:timer-outline"
+    dps:
+      - id: 108
+        name: value
+        type: integer
+        range:
+          min: 0
+          max: 86400
+        unit: s
+  - entity: binary_sensor
+    name: Manual mode notice
+    category: diagnostic
+    icon: "mdi:alert-circle-outline"
+    dps:
+      - id: 109
+        type: boolean
+        name: sensor
+        readonly: true
