@@ -99,7 +99,15 @@ def main() -> None:
     ensure_upstream()
     tag = latest_release_tag()
     print(f"Latest upstream release: {tag}")
-    run(["git", "fetch", "upstream", f"refs/tags/{tag}:refs/remotes/upstream/release"])
+    run(
+        [
+            "git",
+            "fetch",
+            "--no-tags",
+            "upstream",
+            f"refs/tags/{tag}:refs/remotes/upstream/release",
+        ]
+    )
     if (
         subprocess.run(
             ["git", "merge-base", "--is-ancestor", "refs/remotes/upstream/release", "HEAD"],
