@@ -3,9 +3,11 @@
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,15 +52,19 @@ def ensure_upstream() -> None:
 
 
 def latest_release_tag() -> str:
-    return capture(
-        [
-            "gh",
-            "api",
-            "repos/make-all/tuya-local/releases/latest",
-            "--jq",
-            ".tag_name",
-        ]
+    request = urllib.request.Request(
+        "https://api.github.com/repos/make-all/tuya-local/releases/latest",
+        headers={
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "tuya-local-fork-sync",
+        },
     )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        payload = json.load(response)
+    tag = payload.get("tag_name")
+    if not tag:
+        raise SystemExit("Upstream latest release has no tag")
+    return tag
 
 
 def custom_profiles_kept(before: str) -> None:
