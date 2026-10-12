@@ -1019,6 +1019,7 @@ of device.
 - Outon Smart Lamp
 - Peteme recessed lighting
 - Pinar SmartLux door lights
+- PIR floodlight (Security Light white)
 - Pixbee Illumi ambient light
 - PowerAsia RGB 6-inch recessed lighting
 - RGB48 RGBIC string light
