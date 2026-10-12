@@ -1,0 +1,294 @@
+name: Litter box
+products:
+  - id: wyvu1hlo3s9weqt9
+    manufacturer: Meowant
+    model: MW-SC10
+# Open-top box. No scale: the visit record's weight bytes stay zero.
+# DP 7 is named like a daily count but the box rewrites it as 1 after
+# every visit, so it is not exposed.
+entities:
+  - entity: sensor
+    name: Status
+    class: enum
+    icon: "mdi:information-outline"
+    dps:
+      - id: 24
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: standby
+            value: idle
+          - dps_val: waiting
+            value: waiting
+          - dps_val: cleaning
+            value: cleaning
+          - dps_val: cat_get_in
+            value: cat_inside
+          - dps_val: pause
+            value: paused
+          - dps_val: pause_2
+            value: paused_2
+          - dps_val: garbage_box_full
+            value: bin_full
+          - dps_val: Error
+            value: error
+          - dps_val: emptying
+            value: emptying
+          - dps_val: empty_done
+            value: empty_complete
+          - dps_val: clean_done
+            value: clean_complete
+  - entity: switch
+    name: Auto clean
+    category: config
+    icon: "mdi:autorenew"
+    dps:
+      - id: 4
+        type: boolean
+        name: switch
+  - entity: number
+    name: Clean delay
+    category: config
+    icon: "mdi:timer-outline"
+    dps:
+      - id: 5
+        type: integer
+        name: value
+        unit: min
+        range:
+          min: 1
+          max: 60
+  - entity: button
+    name: Start clean
+    icon: "mdi:broom"
+    dps:
+      - id: 106
+        type: string
+        name: button
+        mapping:
+          - dps_val: cleaning
+            value: true
+  - entity: button
+    name: Pause clean
+    icon: "mdi:pause"
+    dps:
+      - id: 106
+        type: string
+        name: button
+        mapping:
+          - dps_val: pause
+            value: true
+  - entity: sensor
+    name: Clean cycle
+    class: enum
+    icon: "mdi:broom"
+    dps:
+      - id: 106
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: standby
+            value: idle
+          - dps_val: cleaning
+            value: cleaning
+          - dps_val: pause
+            value: paused
+  - entity: button
+    name: Empty litter
+    category: config
+    icon: "mdi:delete-empty"
+    dps:
+      - id: 104
+        type: string
+        name: button
+        mapping:
+          # Dumps the litter into the waste drawer.
+          - dps_val: empty
+            value: true
+  - entity: sensor
+    name: Empty cycle
+    class: enum
+    icon: "mdi:delete-empty"
+    dps:
+      - id: 104
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: standby1
+            value: idle
+          - dps_val: empty
+            value: emptying
+          - dps_val: pause1
+            value: paused
+  - entity: switch
+    translation_key: sleep
+    category: config
+    dps:
+      - id: 10
+        type: boolean
+        name: switch
+  - entity: time
+    name: Sleep starts
+    category: config
+    icon: "mdi:clock-start"
+    dps:
+      - id: 11
+        type: integer
+        name: minute
+        range:
+          min: 0
+          max: 1435
+        mapping:
+          - step: 5
+  - entity: time
+    name: Sleep ends
+    category: config
+    icon: "mdi:clock-end"
+    dps:
+      - id: 12
+        type: integer
+        name: minute
+        range:
+          min: 0
+          max: 1435
+        mapping:
+          - step: 5
+  - entity: switch
+    name: Kitten mode
+    category: config
+    icon: "mdi:cat"
+    dps:
+      - id: 108
+        type: boolean
+        name: switch
+  - entity: lock
+    translation_key: child_lock
+    category: config
+    dps:
+      - id: 103
+        type: boolean
+        name: lock
+  - entity: switch
+    name: Beep
+    category: config
+    icon: "mdi:volume-high"
+    dps:
+      - id: 105
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Indicator light
+    category: config
+    icon: "mdi:led-on"
+    dps:
+      - id: 109
+        type: boolean
+        name: switch
+  - entity: switch
+    name: Deodorizer reminder
+    category: config
+    icon: "mdi:flower"
+    dps:
+      - id: 111
+        type: boolean
+        name: switch
+  - entity: binary_sensor
+    name: Waste bin full
+    class: problem
+    icon: "mdi:delete-alert"
+    dps:
+      - id: 24
+        type: string
+        name: sensor
+        mapping:
+          - dps_val: garbage_box_full
+            value: true
+          - value: false
+      - id: 21
+        type: bitfield
+        optional: true
+        name: notification
+        mapping:
+          # Bit 0 is the bin-full flag.
+          - dps_val: 1
+            value: true
+          - value: false
+  - entity: binary_sensor
+    class: problem
+    category: diagnostic
+    dps:
+      - id: 22
+        type: bitfield
+        optional: true
+        name: sensor
+        mapping:
+          - dps_val: 0
+            value: false
+          - value: true
+      - id: 22
+        type: bitfield
+        optional: true
+        name: fault_code
+        mapping:
+          - dps_val: 0
+            value: none
+          - dps_val: 1
+            value: e1
+          - dps_val: 2
+            value: e2
+          - dps_val: 4
+            value: e3
+          - dps_val: 8
+            value: e4
+          - dps_val: 16
+            value: e5
+  - entity: sensor
+    name: History
+    class: enum
+    category: diagnostic
+    icon: "mdi:history"
+    dps:
+      - id: 107
+        type: string
+        optional: true
+        name: sensor
+        mapping:
+          - dps_val: enter
+            value: cat_entered
+          - dps_val: done
+            value: visit_ended
+          - dps_val: finish_clean
+            value: clean_finished
+          - dps_val: garbage_full
+            value: bin_full
+          - dps_val: E1
+            value: e1
+          - dps_val: E2
+            value: e2
+          - dps_val: E3
+            value: e3
+          - dps_val: E4
+            value: e4
+          - dps_val: E5
+            value: e5
+  - entity: sensor
+    name: Visit record
+    category: diagnostic
+    icon: "mdi:cat"
+    # Four base64 bytes. Duration in seconds is the first two, big-endian.
+    dps:
+      - id: 102
+        type: string
+        optional: true
+        name: sensor
+  - entity: sensor
+    name: Motor current
+    category: diagnostic
+    icon: "mdi:sine-wave"
+    dps:
+      - id: 101
+        type: integer
+        optional: true
+        name: sensor
+        unit: mA
+        class: measurement

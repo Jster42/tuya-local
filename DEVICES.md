@@ -1274,6 +1274,7 @@ port and password.
 - Littepets MA2 series Cute Baby cat litter box
 - LSC Smart Connect pet feeder
 - Meegeem cat litter box
+- Meowant SC10 litter box
 - Meowmatic pet feeder
 - Mini-B Public litter box
 - MolyPet F02W pet feeder
